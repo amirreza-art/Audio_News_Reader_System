@@ -18,7 +18,13 @@ class NewsAdmin(admin.ModelAdmin):
         return "---".join([category.title for category in obj.category.all()])
 
     display_categories.short_description = 'Categories'
-    
 
-admin.site.register(Category)
-admin.site.register(SubCategory)
+
+@register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('title', 'id',)
+
+
+@register(SubCategory)
+class SubCategoryAdmin(admin.ModelAdmin):
+    list_display = ('title', 'id',)
