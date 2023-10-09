@@ -4,6 +4,7 @@ import datetime
 
 
 class Category(models.Model):
+    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=75, unique=True)
 
     def __str__(self):
@@ -11,6 +12,7 @@ class Category(models.Model):
     
 
 class SubCategory(models.Model):
+    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=100, unique=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="sub_categories")
     
