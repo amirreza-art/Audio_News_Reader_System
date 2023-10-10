@@ -1,6 +1,6 @@
 from rest_framework import generics
 from .models import News
-from .serializers import NewsByCategorySerializer
+from .serializers import NewsByCategorySerializer, NewsSerializer
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.http import Http404
@@ -31,3 +31,8 @@ class NewsByCategoryView(generics.ListAPIView):
 
         return Response(serializer.data)
     
+
+class NewsDetailView(generics.RetrieveAPIView):
+    queryset = News.objects.all()
+    serializer_class = NewsSerializer
+    lookup_field = "guid"
