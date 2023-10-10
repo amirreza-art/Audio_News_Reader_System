@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from .models import News
-import os
+from .models import News, Category
+from django.db.models import Max
 from django.conf import settings
 
 class NewsByCategorySerializer(serializers.ModelSerializer):
@@ -45,4 +45,27 @@ class NewsSerializer(serializers.ModelSerializer):
         file_path = f'tts/{obj.shamsi_pubDate.date()}/{obj.guid}.mp3'
         download_link = request.build_absolute_uri(settings.MEDIA_URL + file_path)
         
-        return download_link 
+        return download_link
+    
+
+class CategorySerializer(serializers.ModelSerializer):
+    news_count = serializers.SerializerMethodField("get_news_count")
+    last_update = serializers.SerializerMethodField("get_last_update")
+    tts_count = serializers.SerializerMethodField("get_tts_count")
+            
+    class Meta:
+        model = Category
+        fields = '__all__'
+
+    def get_news_count(self, obj):
+        news_count = obj.news_items.count()
+        return news_count
+    
+    def get_last_update(self, obj):
+        last_update = News.objects.filter(category=obj).aggregate(last_update=Max('updated_at')).get('last_update')
+        return last_update
+
+    def get_tts_count(self, obj):
+        tts_count = News.objects.filter(category=obj).filter(tts_ready=False).count()
+        return tts_count
+
