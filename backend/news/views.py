@@ -4,6 +4,7 @@ from .serializers import NewsByCategorySerializer, NewsSerializer, CategorySeria
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.http import Http404
+import django_filters
 
 
 class NewsByCategoryView(generics.ListAPIView):
@@ -39,7 +40,16 @@ class NewsDetailView(generics.RetrieveAPIView):
     lookup_field = "guid"
 
 
+class CategoryFilter(django_filters.FilterSet):
+    last_update = django_filters.DateFilter(field_name='news_items__updated_at', lookup_expr="exact")
+   
+    class Meta:
+        model = Category
+        fields = ('title', 'last_update')
+
+
 class CategoryListView(generics.ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    filterset_fields = ("title",)
+    # filterset_fields = ("title", 'last_update')
+    filterset_class = CategoryFilter
