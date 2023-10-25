@@ -33,10 +33,10 @@ def createTheNews(complete_url, category, subcat):
         sub_html_content = sub_response.content
         sub_soup = BeautifulSoup(sub_html_content, 'html.parser')
         try:
-            head = sub_soup.find('h1', class_='title').text.strip()   
+            head = sub_soup.find('p', class_='lead').text.strip()   
         except Exception:
             try:
-                head = sub_soup.find('span', class_='title').text.strip() 
+                head = sub_soup.find('span', class_='lead').text.strip() 
             except Exception: 
                 continue
         
@@ -86,7 +86,7 @@ def main():
             if created:
                 subcat.save()
             
-            createTheNews(complete_url, category, subcat)     
+            createTheNews(complete_url, category, subcat)  
         except:
             continue
 
