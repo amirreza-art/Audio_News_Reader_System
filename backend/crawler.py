@@ -5,6 +5,7 @@ from urllib.parse import urljoin
 from lxml import etree
 import os
 import django
+from comments import getComment, count_dicts
 
 # Set up Django environment
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'drf.settings')
@@ -40,12 +41,18 @@ def createTheNews(complete_url, category, subcat):
             except Exception: 
                 continue
         
-        number = int(re.search(r"\d+", guids[i].text.strip()).group())
-        news, created = News.objects.get_or_create(guid=number, defaults={
+        guid = int(re.search(r"\d+", guids[i].text.strip()).group())
+        try:
+            comment_count = count_dicts(getComment(guid))
+        except Exception:
+            comment_count = 0
+
+        news, created = News.objects.get_or_create(guid=guid, defaults={
                                                             'title': titles[i].text.strip(),
                                                             'link': sub_url,
                                                             'headline': head,
                                                             'pubDate': pubDates[i].text,
+                                                            'comment_count': comment_count,
                                                             })
         news.category.add(category)
         news.sub_category.add(subcat)
