@@ -7,7 +7,7 @@ from .models import Category, SubCategory, News
 class NewsAdmin(admin.ModelAdmin):
     list_display = ('guid', 'comment_count', 'title', 'tts_ready', 'display_categories', 'display_subcategories',)
     list_filter = ('tts_ready',)
-    ordering = ('comment_count',)
+    search_fields = ('guid',)
     
     def display_subcategories(self, obj):
         return "---".join([subcategory.title for subcategory in obj.sub_category.all()])
