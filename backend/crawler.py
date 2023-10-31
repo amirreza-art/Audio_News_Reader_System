@@ -5,7 +5,7 @@ from urllib.parse import urljoin
 from lxml import etree
 import os
 import django
-from comments import getComment, count_dicts
+from comments import getComment, newsCount
 
 # Set up Django environment
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'drf.settings')
@@ -43,7 +43,7 @@ def createTheNews(complete_url, category, subcat):
         
         guid = int(re.search(r"\d+", guids[i].text.strip()).group())
         try:
-            comment_count = count_dicts(getComment(guid))
+            comment_count = newsCount(getComment(guid))
         except Exception:
             comment_count = 0
 
