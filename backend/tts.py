@@ -60,7 +60,7 @@ def call_tts(headline, guid, shamsi_pubDate, token):
 
 def main():
     token = get_token()
-    queryset = News.objects.filter(tts_ready=False)
+    queryset = News.objects.filter(tts_ready=False).filter(comment_count__gt=10)
 
     for theNews in queryset:
         guid = theNews.guid
