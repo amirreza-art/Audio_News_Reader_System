@@ -62,7 +62,7 @@ class CategorySerializer(serializers.ModelSerializer):
         return news_count
     
     def get_last_update(self, obj):
-        last_update = News.objects.filter(category=obj).aggregate(last_update=Max('updated_at')).get('last_update')
+        last_update = News.objects.filter(category=obj).aggregate(last_update=Max('updated_at__date')).get('last_update')
         return last_update
 
     def get_tts_count(self, obj):
