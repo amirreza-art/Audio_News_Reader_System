@@ -66,6 +66,6 @@ class CategorySerializer(serializers.ModelSerializer):
         return last_update
 
     def get_tts_count(self, obj):
-        tts_count = News.objects.filter(category=obj).filter(tts_ready=False).count()
+        tts_count = News.objects.filter(category=obj).filter(tts_ready=True).count()
         return tts_count
 
