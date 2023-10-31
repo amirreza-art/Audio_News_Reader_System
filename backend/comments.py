@@ -1,6 +1,7 @@
 import requests
 import os
 import django
+import time
 
 # Set up Django environment
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'drf.settings')
@@ -38,6 +39,9 @@ def getComment(guid):
         if response.status_code == 200:
             data = response.json()
             return data
+        time.sleep(60)
+        
+    print(guid)
     return []
 
 
