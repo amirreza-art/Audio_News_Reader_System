@@ -39,7 +39,7 @@ def getComment(guid):
         if response.status_code == 200:
             data = response.json()
             return data
-        time.sleep(60)
+        time.sleep(5)
         
     print(guid)
     return []
@@ -64,8 +64,10 @@ def newsCount(data):
 def setCommentsCount(queryset):
     for theNews in queryset:
         try:
-            theNews.comment_count = newsCount(getComment(theNews.guid))
-            theNews.save()
+            count = newsCount(getComment(theNews.guid))
+            if count > theNews.comment_count:
+                theNews.comment_count = count
+                theNews.save()
         except Exception:
             continue
 
