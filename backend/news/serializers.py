@@ -1,12 +1,12 @@
 from rest_framework import serializers
-from .models import News, Category, SubCategory
+from .models import News, Category
 from django.db.models import Max
 from django.conf import settings
 
 class NewsByCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = News
-        fields = ('title', 'guid', 'pubDate', 'tts_ready')
+        fields = ('title', 'guid', 'pubDate', 'tts_ready', 'comment_count')
 
 
 class NewsSerializer(serializers.ModelSerializer):
