@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import News, Category
+from .models import News, Category, SubCategory
 from django.db.models import Max
 from django.conf import settings
 
@@ -16,7 +16,7 @@ class NewsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = News
-        fields = ('title', 'comment_count', 'shamsi_pubDate', 'headline', 
+        fields = ('title', 'comment_count', 'pubDate', 'headline', 
                   'download_link', 'categories', 'sub_categories')
 
     def get_categories(self, obj):
@@ -29,7 +29,7 @@ class NewsSerializer(serializers.ModelSerializer):
         return cats
     
     def get_sub_categories(self, obj):
-        sub_categories = obj.category.all()
+        sub_categories = obj.sub_category.all()
         sub_cats = list()
         
         for cat in sub_categories:
